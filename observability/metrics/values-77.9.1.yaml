@@ -166,7 +166,7 @@ customRules: {}
 ## Create default rules for monitoring the cluster
 ##
 defaultRules:
-  create: true
+  create: false  
   rules:
     alertmanager: true
     etcd: true
@@ -1018,7 +1018,7 @@ alertmanager:
     ## Storage is the definition of how storage will be used by the Alertmanager instances.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/platform/storage.md
     ##
-    storage: {}
+    storage: {} # INFRA-005
     # volumeClaimTemplate:
     #   spec:
     #     storageClassName: gluster
