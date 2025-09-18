@@ -56,10 +56,9 @@
 
 ## 🗂 리포지토리 구조 (Top-Level)
 ```
-sre-agent-infra/
+infra/
 ├─ README.md             # 본 가이드
 ├─ docs/                 # 아키텍처 다이어그램, ADR, 네이밍 규칙
-├─ infra/                # 인프라(IaC) 모듈
 ├─ observability/        # 로그/메트릭/트레이싱 설정
 ├─ .github/workflows/    # CI/CD 파이프라인
 └─ scripts/              # 자동화 스크립트
