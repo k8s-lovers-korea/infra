@@ -222,7 +222,7 @@ tempoQuery:
     labels: {}
     path: /
 
-    # pathType is only for k8s >= 1.1=
+    # pathType is only for k8s >= 1.18
     pathType: Prefix
 
     hosts:
