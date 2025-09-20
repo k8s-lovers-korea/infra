@@ -62,7 +62,7 @@ infra/
 ├─ aks/                  # AKS 클러스터 IaC (Terraform)
 ├─ observability/        # 로그/메트릭/트레이싱 설정
 │  ├─ metrics/           # Prometheus 스택 (Kustomize + Helm)
-│  └─ traces/            # 분산 트레이싱 설정
+│  └─ tracing/           # 분산 트레이싱 설정
 │     ├─ otel-collector/ # OpenTelemetry Collector 배포
 │     └─ tempo/          # Tempo 백엔드 (Kustomize + Helm)
 ├─ .github/workflows/    # CI/CD 파이프라인
