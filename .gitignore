@@ -1,0 +1,20 @@
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+.terraform.lock.hcl
+*.tfvars
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+
+# SSH keys and secrets - do NOT commit
+id_rsa
+id_rsa.pub
+*.pem
+*.key
+.ssh/
+
+# editor
+.vscode/
+.idea/
