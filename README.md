@@ -29,12 +29,13 @@
 - **주요 작업**
   - Loki 스택 설치 및 기본 로그 수집 (**OBS-001**)
   - Prometheus 메트릭 수집 설정 (**OBS-002**)
+  - Tempo 및 OpenTelemetry Collector를 통한 분산 트레이싱 구축
 - **작업 폴더**
   ```
   observability/
   ├─ logging/            # Loki, Fluent Bit, Grafana 설정
   ├─ metrics/            # Prometheus, Alertmanager, Exporters
-  ├─ tracing/            # OpenTelemetry Collector (옵션)
+  ├─ tracing/            # OpenTelemetry Collector, Tempo 분산 트레이싱
   └─ dashboards/         # Grafana 대시보드 JSON, Kusto 쿼리
   ```
 
@@ -58,8 +59,12 @@
 ```
 infra/
 ├─ README.md             # 본 가이드
-├─ docs/                 # 아키텍처 다이어그램, ADR, 네이밍 규칙
+├─ aks/                  # AKS 클러스터 IaC (Terraform)
 ├─ observability/        # 로그/메트릭/트레이싱 설정
+│  ├─ metrics/           # Prometheus 스택 (Kustomize + Helm)
+│  └─ tracing/           # 분산 트레이싱 설정
+│     ├─ otel-collector/ # OpenTelemetry Collector 배포
+│     └─ tempo/          # Tempo 백엔드 (Kustomize + Helm)
 ├─ .github/workflows/    # CI/CD 파이프라인
 └─ scripts/              # 자동화 스크립트
 ```
@@ -71,6 +76,34 @@ infra/
 - **브랜치 전략**: `feature/<issue-id>-<short-desc>` → PR → 리뷰 → main 병합
 - **코드 리뷰**: 최소 1명 이상 승인 필수
 - **문서화**: 변경 사항은 `docs/adr` 또는 관련 README에 기록
+
+---
+
+## 🛠 사전 요구사항
+
+### Kustomize 설치
+관측 가능성 스택 배포를 위해 Kustomize가 필요합니다:
+
+```bash
+# Kustomize 설치 (공식 스크립트 - 권장)
+curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+sudo mv kustomize /usr/local/bin/
+
+# 설치 확인
+kustomize version
+```
+
+**다른 설치 방법들:**
+```bash
+# APT (Ubuntu/Debian)
+sudo apt update && sudo apt install kustomize
+
+# Snap
+sudo snap install kustomize
+
+# Go install (Go 환경이 있는 경우)
+go install sigs.k8s.io/kustomize/kustomize/v5@latest
+```
 
 ---
 
@@ -143,6 +176,8 @@ flowchart LR
       ALRT[(Alertmanager)]:::obs
       GRAF[(Grafana)]:::obs
       LOGFLT[(Promtail/Fluent Bit)]:::obs
+      TEMPO[(Tempo)]:::obs
+      OTEL[(OpenTelemetry Collector)]:::obs
     end
   end
 
@@ -180,6 +215,9 @@ flowchart LR
   LOKI --> GRAF
   PROM --> GRAF
   AKS --> MON
+  AKS -->|traces| OTEL
+  OTEL -->|forward traces| TEMPO
+  TEMPO --> GRAF
 
   %% CI/CD Deployment
   GH -->|IaC deploy  Bicep/Terraform | SUB
