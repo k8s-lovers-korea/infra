@@ -1,0 +1,23 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ai-sre-agent
+  namespace: sre
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: ./charts/ai-sre-agent
+      sourceRef:
+        kind: GitRepository
+        name: ai-sre-agent
+        namespace: flux-system
+  # private 전환 할 경우
+  # valuesFrom:
+  #   - kind: Secret
+  #     name: ai-sre-agent-cred
+  values:
+    image:
+      repository: ghcr.io/k8s-lovers-korea/ai-sre-agent
+      # 아래 tag를 Image Automation이 자동으로 변경
+      tag: 0.0.1 # {"$imagepolicy": "flux-system:ai-sre-agent-policy:tag"}
