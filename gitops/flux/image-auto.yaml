@@ -1,3 +1,4 @@
+---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
@@ -38,9 +39,9 @@ spec:
     commit:
       author:
         name: flux
-        email: 57217558+hwan001@users.noreply.github.com # bot 계정 생성 후 교체?
+        email: 57217558+hwan001@users.noreply.github.com  # bot 계정 생성 후 교체?
     push:
       branch: main
   update:
-    path: ./gitops/apps/ai-sre-agent # helmrelease.yaml
+    path: ./gitops/apps/ai-sre-agent  # helmrelease.yaml
     strategy: Setters
