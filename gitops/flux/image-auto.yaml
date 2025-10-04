@@ -7,8 +7,6 @@ metadata:
 spec:
   interval: 1m
   image: ghcr.io/k8s-lovers-korea/ai-sre-agent
-  # secretRef:
-  #   name: ghcr-cred
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
@@ -39,9 +37,9 @@ spec:
     commit:
       author:
         name: flux-bot
-        email: flux-bot@example.com  # bot 계정 생성 후 교체?
+        email: flux-bot@example.com
     push:
       branch: main
   update:
-    path: ./gitops/apps/ai-sre-agent  # helmrelease.yaml
+    path: ./gitops/apps/ai-sre-agent
     strategy: Setters
