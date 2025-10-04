@@ -1,0 +1,11 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: ai-sre-agent
+  namespace: flux-system
+spec:
+  interval: 1m
+  url: https://github.com/k8s-lovers-korea/ai-sre-agent.git
+  ref:
+    branch: main

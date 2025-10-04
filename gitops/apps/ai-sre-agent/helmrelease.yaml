@@ -1,0 +1,19 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ai-sre-agent
+  namespace: sre
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: ./charts/ai-sre-agent
+      sourceRef:
+        kind: GitRepository
+        name: ai-sre-agent
+        namespace: flux-system
+  values:
+    image:
+      repository: ghcr.io/k8s-lovers-korea/ai-sre-agent
+      tag: 0.0.1  # {"$imagepolicy": "flux-system:ai-sre-agent-policy:tag"}
