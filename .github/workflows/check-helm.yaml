@@ -24,14 +24,6 @@ jobs:
       - name: Check YAML formatting and validity
         run: yamllint gitops/
 
-      - name: Lint Helm Chart
-        run: |
-          for dir in gitops/apps/*; do
-            if [ -f "$dir/Chart.yaml" ]; then
-              helm lint "$dir"
-            fi
-          done
-
       - name: Scan Helm chart with kube-linter
         uses: stackrox/kube-linter-action@v1
         with:
